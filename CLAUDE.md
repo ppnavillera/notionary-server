@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-EnKoExtension is a Korean-English dictionary service built as a Supabase Edge Function. It fetches English word definitions using Google's Gemini AI and stores them in a Notion database with Korean translations.
+Notionary is a Korean-English dictionary service built as a Supabase Edge Function. It fetches English word definitions using Google's Gemini AI and stores them in a Notion database with Korean translations.
 
 ## Development Commands
 
