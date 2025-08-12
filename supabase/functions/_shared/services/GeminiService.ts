@@ -8,7 +8,7 @@ export class GeminiService {
   constructor(apiKey: string) {
     this.genAI = new GoogleGenerativeAI(apiKey);
     this.model = this.genAI.getGenerativeModel({
-      model: "gemini-2.0-flash",
+      model: "gemini-2.5-flash",
       generationConfig: {
         responseMimeType: "application/json",
         // responseSchema: schema,
@@ -23,6 +23,7 @@ export class GeminiService {
 \`\`\`json
 {
   "word": string,
+  "pronunciation": string,
   "definition1": string,
   "definition2": string | null,
   "example": string,
@@ -33,11 +34,14 @@ export class GeminiService {
 
 **Instructions:**
 1. **word**: The provided English word.
-2. **definition1**: The primary meaning of the word, including the part of speech. **Only use the following valid abbreviations for parts of speech: (adj) for adjective, (adv) for adverb, (n) for noun, (v) for verb, and (interj) for interjection.** For example, for a greeting like "hello", use "(interj)".
-3. **definition2**: A secondary meaning (if available); if not, set this to \`null\`.
-4. **example**: A sentence demonstrating the usage of the word.
-5. **synonyms**: An array of synonyms; if there are none, use \`null\`.
-6. **antonyms**: An array of antonyms; if there are none, use \`null\`.
+2. **pronunciation**: The British pronunciation of the given word in phonetic symbols (IPA). Use standard British English (RP) IPA notation within forward slashes. Note: British English is non-rhotic, so 'r' sounds should only appear before vowels (e.g., "/həˈləʊ/", "/ˈpɑːti/").
+3. **definition1**: The primary meaning of the word, including the part of speech. **Only use the following valid abbreviations for parts of speech: (adj) for adjective, (adv) for adverb, (n) for noun, (v) for verb, and (interj) for interjection.** For example, for a greeting like "hello", use "(interj)".
+4. **definition2**: A secondary meaning (if available); if not, set this to \`null\`.
+5. **example**: A sentence demonstrating the usage of the word.
+6. **synonyms**: An array of synonyms; if there are none, use \`null\`.
+7. **antonyms**: An array of antonyms; if there are none, use \`null\`.
+
+**Important note about antonyms**: Please provide antonyms when they exist, even if they are prefixed forms (like "malfunction" for "function", "disable" for "enable", "disconnect" for "connect"). Don't set antonyms to null unless there truly are no opposite words.
 
 **Example:**
 
@@ -46,6 +50,7 @@ A:
 \`\`\`json
 {
   "word": "complete",
+  "pronunciation": "/kəmˈpliːt/",
   "definition1": "(adj) 완전한",
   "definition2": "(v) 완료하다",
   "example": "He completed the project on time.",
@@ -54,34 +59,12 @@ A:
 }
 \`\`\`
 
-\`\`\`json
-{
-    "word": "bruntly",
-    "definition1": "(adv) 직설적으로",
-    "definition2": null,
-    "example": "He told me bluntly that he didn't want to see me again.",
-    "synonyms": ["bluntly", "frankly", "directly", "candidly", "brusquely"],
-    "antonyms": ["tactfully", "diplomatically", "evasively"]
-}
-\`\`\`
-
 **Task:**
 
 Now, provide the output for the following word:
 
 Q: ${word}
-A:
-\`\`\`json
-{
-  "word": ${word},
-  "definition1": ...,
-  "definition2": ...,
-  "example": ...,
-  "synonyms": ...,
-  "antonyms": ...
-}
-\`\`\`
-`;
+A:`;
     const result = await this.model.generateContent(prompt);
     const json = JSON.parse(result.response.text());
     console.log(result.response);
