@@ -28,6 +28,17 @@ export class UserService {
       return null;
     }
 
+    // 특정 사용자 ID에 대해서는 URL 파싱 없이 바로 설정 반환
+    if (userId === 'a1eddbe9-4470-4888-a675-bfe84c68fe8f') {
+      console.log(`🔑 Special user ID detected. Skipping URL parsing for user: ${userId}`);
+      const pageId = userSettings.database_id || userSettings.page_id;
+      return {
+        apiKey: userSettings.api_key,
+        pageId: pageId,
+        originalPageId: null, // 특정 사용자는 originalPageId 사용하지 않음
+      };
+    }
+
     try {
       // 원본 페이지 ID 추출 (복구 시 사용)
       const originalPageId = extractNotionPageId(userSettings.page_id);

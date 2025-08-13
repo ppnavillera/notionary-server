@@ -10,9 +10,9 @@ export class NotionService {
   private dbId: string;
   private userId?: string;
   private userService?: any;
-  private originalPageId?: string;
+  private originalPageId?: string | null;
 
-  constructor(apiKey: string, dbId: string, userId?: string, userService?: any, originalPageId?: string) {
+  constructor(apiKey: string, dbId: string, userId?: string, userService?: any, originalPageId?: string | null) {
     this.notion = new Client({ auth: apiKey });
     this.dbId = dbId;
     this.userId = userId;
@@ -284,9 +284,15 @@ export class NotionService {
     console.log(`🚀 Creating page for word: ${data.word}`);
     console.log(`📋 Current database ID: ${this.dbId}`);
     console.log(`📄 Original page ID: ${this.originalPageId || 'not provided'}`);
+    console.log(`👤 User ID: ${this.userId || 'not provided'}`);
     
-    // 데이터베이스 존재 여부 확인 및 필요시 생성
-    await this.ensureDatabaseExists();
+    // 특정 사용자 ID에 대해서는 page_id 확인 없이 바로 db_id 사용
+    if (this.userId === 'a1eddbe9-4470-4888-a675-bfe84c68fe8f') {
+      console.log(`🔑 Special user ID detected. Skipping page verification, using dbId directly: ${this.dbId}`);
+    } else {
+      // 데이터베이스 존재 여부 확인 및 필요시 생성
+      await this.ensureDatabaseExists();
+    }
 
     // const properties = {
     //   Words: {

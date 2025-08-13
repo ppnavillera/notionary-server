@@ -10,5 +10,5 @@ export interface UserSettings {
 export interface UserNotionConfig {
   apiKey: string;
   pageId: string;
-  originalPageId: string;
+  originalPageId: string | null;
 }
