@@ -9,6 +9,7 @@ Notionary is a Korean-English dictionary service built as a Supabase Edge Functi
 ## Development Commands
 
 ### Local Development
+
 ```bash
 # Start local development server
 npm run dev
@@ -29,12 +30,14 @@ supabase functions deploy enkoextension
 ## Architecture
 
 ### Core Flow
+
 1. **HTTP Request** → `index.ts` (handles CORS, routes POST requests)
 2. **API Handler** → `dictionary.ts` (coordinates services)
-3. **AI Service** → `GeminiService.ts` (generates definitions using Gemini 2.0-flash)
+3. **AI Service** → `OpenAIService.ts` (generates definitions using gpt-4o-mini)
 4. **Storage Service** → `NotionService.ts` (creates structured Notion pages)
 
 ### Key Directories
+
 - `supabase/functions/enkoextension/` - Main edge function code
 - `src/api/` - API request handlers
 - `src/services/` - External service integrations (Gemini AI, Notion)
@@ -42,6 +45,7 @@ supabase functions deploy enkoextension
 - `src/config/` - Environment configuration
 
 ### Runtime Environment
+
 - **Runtime**: Deno (for Supabase Edge Functions)
 - **Local Development**: Node.js with ts-node and nodemon
 - **Configuration**: `deno.json` in the edge function directory
@@ -49,6 +53,7 @@ supabase functions deploy enkoextension
 ## Data Flow and Types
 
 The service processes requests with this data structure:
+
 ```typescript
 interface DictionaryResponse {
   word: string;
@@ -63,18 +68,21 @@ interface DictionaryResponse {
 ## Environment Setup
 
 Required environment variables:
+
 - `NOTION_API_KEY` - Notion integration token
-- `NOTION_DATABASE_ID` - Target Notion database ID  
-- `GEMINI_API_KEY` - Google Gemini AI API key
+- `NOTION_DATABASE_ID` - Target Notion database ID
+- `OPENAI_API_KEY` - OpenAI API key
 
 ## Service Integration Patterns
 
 ### Gemini AI Integration
+
 - Uses structured prompts to enforce consistent JSON responses
 - Enforces valid part of speech abbreviations in definitions
 - Generates Korean translations alongside English definitions
 
-### Notion Integration  
+### Notion Integration
+
 - Creates pages with structured properties
 - Handles optional fields gracefully (definition2, synonyms, antonyms)
 - Adds spaces after commas in synonym/antonym lists for readability

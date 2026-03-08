@@ -1,7 +1,7 @@
 // interface Config {
 //   NOTION_API_KEY: string;
 //   NOTION_DATABASE_ID: string;
-//   GEMINI_API_KEY: string;
+//   OPENAI_API_KEY: string;
 // }
 import { load } from "https://deno.land/std@0.224.0/dotenv/mod.ts";
 
@@ -14,7 +14,7 @@ const env = await load({
 export const config = {
   NOTION_API_KEY: Deno.env.get("NOTION_API_KEY") || "",
   NOTION_DATABASE_ID: Deno.env.get("NOTION_DATABASE_ID") || "",
-  GEMINI_API_KEY: Deno.env.get("GEMINI_API_KEY") || "",
+  OPENAI_API_KEY: Deno.env.get("OPENAI_API_KEY") || "",
 };
 
 // 필수 환경변수 검증

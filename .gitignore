@@ -1,3 +1,15 @@
 .env
 node_modules/
 template.json
+
+# macOS
+.DS_Store
+
+# Test scripts
+test-*.js
+detailed-model-test.js
+korean-quality-test.js
+update-pronunciation.js
+
+# Temporary docs
+API_UPDATE_REQUEST.md
