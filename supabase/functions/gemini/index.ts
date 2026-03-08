@@ -6,7 +6,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { corsHeaders } from "../_shared/cors.ts";
 import { getErrorMessage } from "../_shared/utils.ts";
-import { handleOpenAIRequest } from "../_shared/api/openai.ts";
+import { handleGeminiRequest } from "../_shared/api/gemini.ts";
 console.log(`Function "browser-with-cors" up and running!`);
 
 Deno.serve(async (req) => {
@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     // 여기 도달했다면 req.method는 반드시 "POST"이므로 추가 조건문 불필요
     try {
         const { word } = await req.json();
-        const result = await handleOpenAIRequest(word);
+        const result = await handleGeminiRequest(word);
         return new Response(JSON.stringify(result), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
             status: 200,
