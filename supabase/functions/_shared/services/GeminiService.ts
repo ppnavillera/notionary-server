@@ -8,7 +8,7 @@ export class GeminiService {
   constructor(apiKey: string) {
     this.genAI = new GoogleGenerativeAI(apiKey);
     this.model = this.genAI.getGenerativeModel({
-      model: "gemini-3.1-flash-lite-preview",
+      model: "gemini-3.1-flash-lite",
       generationConfig: {
         responseMimeType: "application/json",
         // responseSchema: schema,
